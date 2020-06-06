@@ -10,6 +10,7 @@ class MemeGenerator extends Component {
             allMemeImgs: []
         }
         this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     componentDidMount() {
@@ -30,25 +31,42 @@ class MemeGenerator extends Component {
         })
     }
 
+    handleSubmit(e){
+        e.preventDefault()
+        const randNum = Math.floor(Math.random() * this.state.allMemeImgs.length)
+        const randMemeUrl = this.state.allMemeImgs[randNum].url
+        this.setState({
+            randomImg: randMemeUrl
+        })
+    }
+
     render() { 
         return ( 
-            <form>
-                <input 
-                    name='topText'
-                    type='text'
-                    placeholder= 'Top Text'
-                    onChange={this.handleChange}
-                    value={this.state.topText}
-                />
-                <input 
-                    name='bottomText'
-                    type='text'
-                    placeholder= 'Bottom Text'
-// recibe el objeto evento como parametro, si quiero pasar otra cosa debo llamar la funcion onChange={()=> this.handleChange(otroValor)}
-                    onChange={this.handleChange} 
-                    value={this.state.bottomText}
-                />
-            </form>
+            <div>
+                <form className='meme-form' onSubmit={this.handleSubmit}>
+                    <input 
+                        name='topText'
+                        type='text'
+                        placeholder= 'Top Text'
+                        onChange={this.handleChange}
+                        value={this.state.topText}
+                    />
+                    <input 
+                        name='bottomText'
+                        type='text'
+                        placeholder= 'Bottom Text'
+    // recibe el objeto evento como parametro, si quiero pasar otra cosa debo llamar la funcion onChange={()=> this.handleChange(otroValor)}
+                        onChange={this.handleChange} 
+                        value={this.state.bottomText}
+                    />
+                    <button>Gen</button>
+                </form>
+                <div className='meme'>
+                    <img src={this.state.randomImg} alt='' />
+                    <h2 className='top'>{this.state.topText}</h2>
+                    <h2 className='bottom'>{this.state.bottomText}</h2>
+                </div>
+            </div>
          );
     }
 }
